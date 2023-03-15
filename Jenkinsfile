@@ -14,6 +14,16 @@ pipeline {
                 sh 'mvn -B -DskipTests clean package'
             }
         }
+        stage('Snyk Scanning') {
+            steps {
+                 snykSecurity(
+                    snykInstallation: 'snyk@latest',
+                    snykTokenId: 'org-snyk-api-token',
+                    // place other optional parameters here, for example:
+                    // additionalArguments: '--all-projects --detection-depth=<DEPTH>'
+                )
+            }
+        }
         stage('Test') {
             steps {
                 sh 'mvn test'
